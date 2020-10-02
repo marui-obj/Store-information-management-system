@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QDialog, QListWidget, QVBoxLayout, QLabel, QPushButton, QHBoxLayout, QApplication, QInputDialog, QWidget, QMainWindow
+from PyQt5.QtWidgets import QDialog, QListWidget, QVBoxLayout, QLabel, QPushButton, QHBoxLayout, QApplication, QInputDialog, QWidget, QMainWindow, QSizePolicy
 from PyQt5.QtGui import QIcon
 import sys
 
@@ -66,19 +66,43 @@ class ScanWindow(QWidget):
 
     def returnToMain(self):
 
-        print("Return")
+        self.new_window = Main()
+        self.new_window.show()
+        self.hide()
 
 class Main(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.button1 = QPushButton("Scan")
-        self.button1.clicked.connect(self.scanClick)
-        self.setCentralWidget(self.button1)
+        layout = QVBoxLayout()
+
+        for text, func in (("Scan", self.openScanWindow),
+                           ("Data", self.openDataWindow)):
+                           
+            buttons = QPushButton(text)
+            buttons.setSizePolicy(
+                                    QSizePolicy.Preferred,
+                                    QSizePolicy.Preferred
+                                 )
+
+            buttons.clicked.connect(func)
+
+            layout.addWidget(buttons)
+
+        widget = QWidget()
+        widget.setLayout(layout)
+
+        self.setCentralWidget(widget)
+
         self.show()
-    def scanClick(self):
+    def openScanWindow(self):
+
         self.new_window = ScanWindow()
         self.new_window.show()
         self.close()
+
+    def openDataWindow(self):
+
+        print("Data")
 
 
 
