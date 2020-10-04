@@ -1,4 +1,5 @@
-from PyQt5.QtWidgets import QDialog, QListWidget, QVBoxLayout, QLabel, QPushButton, QHBoxLayout, QApplication, QInputDialog, QWidget, QMainWindow, QSizePolicy
+from PyQt5.QtWidgets import (QDialog, QListWidget, QVBoxLayout, QLabel, QPushButton, QHBoxLayout,
+                             QApplication, QInputDialog, QWidget, QMainWindow, QSizePolicy, QMessageBox)
 from PyQt5.QtGui import QIcon
 import sys
 
@@ -46,7 +47,7 @@ class ScanWindow(QWidget):
 
         row = self.list.currentRow()
         title = "Add item"
-        message = "Enter QR CODE"
+        message = "Enter BAR CODE"
         
         string, ok = QInputDialog.getText(self, title, message)
 
@@ -62,7 +63,19 @@ class ScanWindow(QWidget):
     def remove(self):
         ''' This function use for remove item by manual '''
 
-        print("Remove")
+        row = self.list.currentRow()
+        item = self.list.item(row)
+
+        if item is None:
+            return
+        
+        reply = QMessageBox.question(self, "Remove item", 
+                                     "Remove {0} ?".format(str(item.text())),
+                                     QMessageBox.Yes | QMessageBox.No)
+        
+        if reply == QMessageBox.Yes:
+            item = self.list.takeItem(row)
+            del item
 
     def returnToMain(self):
 
