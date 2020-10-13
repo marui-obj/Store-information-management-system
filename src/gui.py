@@ -3,10 +3,6 @@ from PyQt5.QtWidgets import (QDialog, QListWidget, QVBoxLayout, QLabel, QPushBut
 from PyQt5.QtGui import QIcon
 import sys
 
-db_list = ((1, "water", 7),
-           (2, "coke", 15)
-          )
-
 class ScanWindow(QWidget):
     def __init__(self):
 
@@ -15,7 +11,7 @@ class ScanWindow(QWidget):
         
         self.list = QListWidget() # Create scan list
 
-        self.total = QLabel("-") # Create total money label
+        self.total = QLabel("0") # Create total money label
         self.total.setStyleSheet("background-color: lightgreen")
         
         vbox = QVBoxLayout() # Group widget in vertical box layout
@@ -25,6 +21,7 @@ class ScanWindow(QWidget):
         for text, func in (("Add", self.add),
                            ("Edit", self.edit),
                            ("Remove", self.remove),
+                           ("Checkout", self.checkout),
                            ("Return", self.returnToMain)
                            ):
 
@@ -59,6 +56,11 @@ class ScanWindow(QWidget):
         ''' This function use for edit item by manual '''
 
         print("Edit")
+
+    def checkout(self):
+        ''' This function use for checkout item by manual '''
+
+        print("checkout")
 
     def remove(self):
         ''' This function use for remove item by manual '''
