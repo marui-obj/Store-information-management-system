@@ -4,6 +4,7 @@ from PyQt5.QtWidgets import (QDialog, QListWidget, QVBoxLayout, QLabel, QPushBut
 from PyQt5.QtGui import QIcon
 
 # from database import Command
+from store_client import WebSocketClient
 
 from ItemManager import Cart
 
@@ -11,7 +12,12 @@ import sys
 
 
 class ScanWindow(QWidget):
-    def __init__(self):
+    def __init__(self,parent=None):
+
+        super(ScanWindow, self).__init__()
+
+        self.thread = WebSocketClient()
+        self.thread.start()
 
         self.cart = Cart()        
         self.total_price = 0
@@ -55,6 +61,10 @@ class ScanWindow(QWidget):
 
     def simulate_database(self,barcode):
         return "BlackPill",150,"Microcontroller"
+        
+    async def autoAdd(self):
+        print("in")
+        await asyncio.sleep(2)
 
 
     def add(self):
@@ -173,6 +183,7 @@ class Main(QMainWindow):
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
+    QApplication.setQuitOnLastWindowClosed(False)
     scan_window = Main()
     sys.exit(app.exec())
 

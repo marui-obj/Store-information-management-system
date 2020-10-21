@@ -1,11 +1,16 @@
 import websockets
 import asyncio
 import json 
+from PyQt5.QtCore import QThread
 
-class WebSocketClient():
+class WebSocketClient(QThread):
 
-    def __init__(self):
+    def __init__(self,parent=None):
         self.barcode_list = []
+
+        super(WebSocketClient, self).__init__(parent)
+        websocket.enableTrace(True)
+
 
     def json_massage(self,message):
         '''
