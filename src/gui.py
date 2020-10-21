@@ -1,10 +1,24 @@
 from PyQt5.QtWidgets import (QDialog, QListWidget, QVBoxLayout, QLabel, QPushButton, QHBoxLayout,
                              QApplication, QInputDialog, QWidget, QMainWindow, QSizePolicy, QMessageBox)
+
 from PyQt5.QtGui import QIcon
+
+from database import Command
+
+from ItemManager import Cart
+
 import sys
+
 
 class ScanWindow(QWidget):
     def __init__(self):
+
+        self.cart = Cart()        
+        self.total_price = 0
+        
+        self.barcode_dict = {}
+
+        self.database = Command() # connect to database
 
         # You can use "super().__init__()" instead
         super(ScanWindow, self).__init__()
@@ -35,7 +49,7 @@ class ScanWindow(QWidget):
         hbox.addLayout(vbox)
         self.setLayout(hbox)
 
-        self.setWindowTitle("กับข้าวมาแล้วค๊าบบ")
+        self.setWindowTitle("Scan mode")
         self.setWindowIcon(QIcon(".icon\\icon.png"))
         self.show()
 
@@ -43,13 +57,34 @@ class ScanWindow(QWidget):
         ''' This function use for add item to cart list by manual '''
 
         row = self.list.currentRow()
+
         title = "Add item"
         message = "Enter BAR CODE"
-        
-        string, ok = QInputDialog.getText(self, title, message)
+        barcode, ok_barcode = QInputDialog.getText(self, title, message)
 
-        if ok and string is not None and not string.isspace():
-            self.list.insertItem(row, string)
+        item = self.database.getItem(barcode)
+
+        if self.cart.isExist(barcode):
+            print(barcode, "Already exist")
+            return
+
+        if ok_barcode and item:
+            title = "Quality"
+            message = "Enter quality"
+            quality, ok_quality = QInputDialog.getText(self, title, message)
+
+            if ok_quality and quality is not None and not quality.isspace() and not quality == "":
+
+                item_name, item_price, item_type = item
+                string_item = "{0} จำนวน : {1} ราคา : {2}".format(item_name, quality, item_price)
+
+                self.cart.addItem(barcode, item_name, item_price, item_type, quality)
+
+                self.update_price()
+
+                self.list.insertItem(row, string_item)
+
+                print(self.list.item(row))
 
 
     def edit(self):
@@ -79,14 +114,23 @@ class ScanWindow(QWidget):
             item = self.list.takeItem(row)
             del item
 
+
+
     def returnToMain(self):
 
         self.new_window = Main()
         self.new_window.show()
         self.hide()
 
+    def update_price(self):
+        self.total_price = self.cart.getCartPrice()
+        self.total.setText(str(self.total_price))
+
+
+
 class Main(QMainWindow):
     def __init__(self):
+        
         super().__init__()
         layout = QVBoxLayout()
 
@@ -114,6 +158,7 @@ class Main(QMainWindow):
         self.new_window = ScanWindow()
         self.new_window.show()
         self.close()
+        return self.new_window
 
     def openDataWindow(self):
 
