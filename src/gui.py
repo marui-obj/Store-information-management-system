@@ -3,7 +3,7 @@ from PyQt5.QtWidgets import (QDialog, QListWidget, QVBoxLayout, QLabel, QPushBut
 
 from PyQt5.QtGui import QIcon
 
-from database import Command
+# from database import Command
 
 from ItemManager import Cart
 
@@ -18,7 +18,7 @@ class ScanWindow(QWidget):
         
         self.barcode_dict = {}
 
-        self.database = Command() # connect to database
+        # self.database = Command() # connect to database
 
         # You can use "super().__init__()" instead
         super(ScanWindow, self).__init__()
@@ -53,6 +53,10 @@ class ScanWindow(QWidget):
         self.setWindowIcon(QIcon(".icon\\icon.png"))
         self.show()
 
+    def simulate_database(self,barcode):
+        return "BlackPill",150,"Microcontroller"
+
+
     def add(self):
         ''' This function use for add item to cart list by manual '''
 
@@ -62,7 +66,8 @@ class ScanWindow(QWidget):
         message = "Enter BAR CODE"
         barcode, ok_barcode = QInputDialog.getText(self, title, message)
 
-        item = self.database.getItem(barcode)
+        # item = self.database.getItem(barcode)
+        item = self.simulate_database(barcode)
 
         if self.cart.isExist(barcode):
             print(barcode, "Already exist")
