@@ -74,13 +74,23 @@ class Cart():
         return(type_list)
 
     def remove(self, barcode):
+        item = self.getItemByBarCode(barcode)
+        if item != None:
+            self.cart_item.pop(item)
+            print(item, "Has been removed !")
+            print("In Cart items : ", self.getItem())
+        else:
+            print("Error while remove")
+
+    def editQuality(self, item, quality):
+        self.cart_item[item] = quality
+        print("Cart has been update", self.cart_item)
+
+    def getItemByBarCode(self,barcode):
         for item in self.cart_item:
             if item.item_barcode == str(barcode):
-                self.cart_item.pop(item)
-                print(item, "Has been removed !")
-                print("In Cart items : ", self.getItem())
-                return
-        print("Error while remove")
+                return item
+        return None
 
             
 

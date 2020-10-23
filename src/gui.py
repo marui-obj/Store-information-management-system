@@ -88,9 +88,25 @@ class ScanWindow(QWidget):
 
 
     def edit(self):
-        ''' This function use for edit item by manual '''
+        row = self.list.currentRow()
+        item = self.list.item(row)
+        barcode = self.getBCodeInDisplay(item)
 
-        print("Edit")
+        current_item = self.cart.getItemByBarCode(barcode)
+
+        title = "Edit quality"
+        message = "Enter new quality at {0}".format(current_item.getName())
+
+        quality, ok = QInputDialog.getText(self, title, message)
+
+        if ok and quality is not None and not quality.isspace() and not quality == "":
+            name = current_item.item_name
+            price = current_item.item_price
+            item.setText("{0}; {1} จำนวน : {2} ราคา : {3}".format(barcode, name, quality, price))
+            self.cart.editQuality(current_item, quality)
+            self.update_price()
+
+
 
     def checkout(self):
         ''' This function use for checkout item by manual '''
@@ -112,7 +128,7 @@ class ScanWindow(QWidget):
         
         if reply == QMessageBox.Yes:
             item = self.list.takeItem(row)
-            self.cart.remove(self.getQrInDisplay(item))
+            self.cart.remove(self.getBCodeInDisplay(item))
             del item
             self.update_price()
 
@@ -128,7 +144,7 @@ class ScanWindow(QWidget):
         self.total_price = self.cart.getCartPrice()
         self.total.setText(str(self.total_price))
 
-    def getQrInDisplay(self, item):
+    def getBCodeInDisplay(self, item):
         string = item.text()
         barcode = ""
         for char in string:
