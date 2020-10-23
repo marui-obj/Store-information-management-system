@@ -73,8 +73,16 @@ class Cart():
         print(type_list)
         return(type_list)
 
-    def remove(self, item_name):
-        pass
+    def remove(self, barcode):
+        for item in self.cart_item:
+            if item.item_barcode == str(barcode):
+                self.cart_item.pop(item)
+                print(item, "Has been removed !")
+                print("In Cart items : ", self.getItem())
+                return
+        print("Error while remove")
+
+            
 
     def isExist(self, item_barcode):
         for item in self.cart_item:
@@ -102,6 +110,9 @@ if __name__ == "__main__":
     my_cart.getPrice()
     my_cart.getCartPrice()
     my_cart.getType()
+
+    my_cart.remove(8850999321004)
+
 
 
 

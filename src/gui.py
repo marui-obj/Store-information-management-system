@@ -76,7 +76,7 @@ class ScanWindow(QWidget):
             if ok_quality and quality is not None and not quality.isspace() and not quality == "":
 
                 item_name, item_price, item_type = item
-                string_item = "{0} จำนวน : {1} ราคา : {2}".format(item_name, quality, item_price)
+                string_item = "{0}; {1} จำนวน : {2} ราคา : {3}".format(barcode, item_name, quality, item_price)
 
                 self.cart.addItem(barcode, item_name, item_price, item_type, quality)
 
@@ -112,7 +112,9 @@ class ScanWindow(QWidget):
         
         if reply == QMessageBox.Yes:
             item = self.list.takeItem(row)
+            self.cart.remove(self.getQrInDisplay(item))
             del item
+            self.update_price()
 
 
 
@@ -126,6 +128,14 @@ class ScanWindow(QWidget):
         self.total_price = self.cart.getCartPrice()
         self.total.setText(str(self.total_price))
 
+    def getQrInDisplay(self, item):
+        string = item.text()
+        barcode = ""
+        for char in string:
+            if char == ';':
+                break
+            barcode += char
+        return barcode
 
 
 class Main(QMainWindow):
@@ -163,6 +173,7 @@ class Main(QMainWindow):
     def openDataWindow(self):
 
         print("Data")
+
 
 
 
