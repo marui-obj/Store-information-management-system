@@ -4,7 +4,7 @@ from PyQt5.QtWidgets import (QDialog, QListWidget, QVBoxLayout, QLabel, QPushBut
 from PyQt5.QtGui import QIcon
 
 # from database import Command
-from store_client import WebSocketClient
+from store_client import WebsocketClient
 
 from ItemManager import Cart
 
@@ -16,7 +16,7 @@ class ScanWindow(QWidget):
 
         super(ScanWindow, self).__init__()
 
-        self.thread = WebSocketClient()
+        self.thread = WebsocketClient()
         self.thread.start()
 
         self.cart = Cart()        
@@ -183,7 +183,7 @@ class Main(QMainWindow):
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    QApplication.setQuitOnLastWindowClosed(False)
+    # QApplication.setQuitOnLastWindowClosed(False)
     scan_window = Main()
     sys.exit(app.exec())
 

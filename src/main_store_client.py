@@ -1,5 +1,5 @@
 # #api testing
-from store_client import WebSocketClient
+from store_client import WebsocketClient
 import asyncio
 
 from PyQt5.QtWidgets import QApplication
@@ -27,7 +27,7 @@ def setup_pyqt():
 
 def setup_websocket():
 
-  client = WebSocketClient()
+  client = WebsocketClient()
   loop = asyncio.get_event_loop()
   connection = loop.run_until_complete(client.connect())
 
@@ -39,7 +39,9 @@ def setup_websocket():
 
   loop.run_until_complete(asyncio.wait(tasks))
 
-
+if __name__ == "__main__":
+  setup_websocket()
+  
 # if __name__ == "__main__":
 #     import sys
 #     import asyncio
