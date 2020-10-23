@@ -22,15 +22,15 @@ class Cart():
     def __init__(self):
         self.cart_item = {}
 
-    def addItem(self, barcode, name, price, item_type, quality = None):
+    def addItem(self, barcode, name, price, item_type, quantity = None):
         item = Item(barcode, name, price, item_type)
         is_exist = self.isExist(barcode)
 
         if is_exist:
             self.cart_item[is_exist] += 1
         else:
-            if quality:
-                self.cart_item[item] = quality
+            if quantity:
+                self.cart_item[item] = quantity
             else:
                 self.cart_item[item] = 1
     
@@ -82,8 +82,8 @@ class Cart():
         else:
             print("Error while remove")
 
-    def editQuality(self, item, quality):
-        self.cart_item[item] = quality
+    def editQuantity(self, item, quantity):
+        self.cart_item[item] = quantity
         print("Cart has been update", self.cart_item)
 
     def getItemByBarCode(self,barcode):

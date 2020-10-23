@@ -69,16 +69,16 @@ class ScanWindow(QWidget):
             return
 
         if ok_barcode and item:
-            title = "Quality"
-            message = "Enter quality"
-            quality, ok_quality = QInputDialog.getText(self, title, message)
+            title = "Quantity"
+            message = "Enter quantity"
+            quantity, ok_quantity = QInputDialog.getText(self, title, message)
 
-            if ok_quality and quality is not None and not quality.isspace() and not quality == "":
+            if ok_quantity and quantity is not None and not quantity.isspace() and not quantity == "":
 
                 item_name, item_price, item_type = item
-                string_item = "{0}; {1} จำนวน : {2} ราคา : {3}".format(barcode, item_name, quality, item_price)
+                string_item = "{0}; {1} จำนวน : {2} ราคา : {3}".format(barcode, item_name, quantity, item_price)
 
-                self.cart.addItem(barcode, item_name, item_price, item_type, quality)
+                self.cart.addItem(barcode, item_name, item_price, item_type, quantity)
 
                 self.update_price()
 
@@ -94,16 +94,16 @@ class ScanWindow(QWidget):
 
         current_item = self.cart.getItemByBarCode(barcode)
 
-        title = "Edit quality"
-        message = "Enter new quality at {0}".format(current_item.getName())
+        title = "Edit quantity"
+        message = "Enter new quantity at {0}".format(current_item.getName())
 
-        quality, ok = QInputDialog.getText(self, title, message)
+        quantity, ok = QInputDialog.getText(self, title, message)
 
-        if ok and quality is not None and not quality.isspace() and not quality == "":
+        if ok and quantity is not None and not quantity.isspace() and not quantity == "":
             name = current_item.item_name
             price = current_item.item_price
-            item.setText("{0}; {1} จำนวน : {2} ราคา : {3}".format(barcode, name, quality, price))
-            self.cart.editQuality(current_item, quality)
+            item.setText("{0}; {1} จำนวน : {2} ราคา : {3}".format(barcode, name, quantity, price))
+            self.cart.editQuantity(current_item, quantity)
             self.update_price()
 
 
@@ -189,9 +189,6 @@ class Main(QMainWindow):
     def openDataWindow(self):
 
         print("Data")
-
-
-
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
