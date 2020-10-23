@@ -6,12 +6,16 @@ class Command():
         self.cursor = self.database.cursor()
 
     def connect(self):
-        self.database = mysql.connect(
-            host = "localhost",
-            user = "root",
-            passwd = "Smoking8949_",
-            database = "rsp_database"
-        )
+        try:
+            print("Connected")
+            self.database = mysql.connect(
+                host = "localhost",
+                user = "root",
+                passwd = "Smoking8949_",
+                database = "rsp_database"
+            )
+        except:
+            print("Error in database")
     def getItem(self, barcode):
         ''' this function use for get item data by using barcode '''
 
