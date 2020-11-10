@@ -4,7 +4,7 @@ from PyQt5.QtWidgets import (QDialog, QListWidget, QVBoxLayout, QLabel, QPushBut
 from PyQt5.QtGui import QIcon
 
 # from database import Command
-from store_client import WebsocketClient
+# from store_client import WebsocketClient
 
 from ItemManager import Cart
 
@@ -14,10 +14,10 @@ import sys
 class ScanWindow(QWidget):
     def __init__(self,parent=None):
 
-        super(ScanWindow, self).__init__()
+        # super(ScanWindow, self).__init__()
 
-        self.thread = WebsocketClient()
-        self.thread.start()
+        # self.thread = WebsocketClient()
+        # self.thread.start()
 
         self.cart = Cart()        
         self.total_price = 0
@@ -65,7 +65,6 @@ class ScanWindow(QWidget):
     async def autoAdd(self):
         print("in")
         await asyncio.sleep(2)
-
 
     def add(self):
         ''' This function use for add item to cart list by manual '''
