@@ -22,15 +22,15 @@ class Cart():
     def __init__(self):
         self.cart_item = {}
 
-    def addItem(self, barcode, name, price, item_type, quality = None):
+    def addItem(self, barcode, name, price, item_type, quantity = None):
         item = Item(barcode, name, price, item_type)
         is_exist = self.isExist(barcode)
 
         if is_exist:
             self.cart_item[is_exist] += 1
         else:
-            if quality:
-                self.cart_item[item] = quality
+            if quantity:
+                self.cart_item[item] = quantity
             else:
                 self.cart_item[item] = 1
     
@@ -73,8 +73,30 @@ class Cart():
         print(type_list)
         return(type_list)
 
-    def remove(self, item_name):
-        pass
+    def remove(self, barcode):
+        item = self.getItemByBarCode(barcode)
+        if item != None:
+            self.cart_item.pop(item)
+            print(item, "Has been removed !")
+            print("In Cart items : ", self.getItem())
+        else:
+            print("Error while remove")
+
+    def editQuantity(self, item, quantity):
+        self.cart_item[item] = quantity
+        print("Cart has been edit", self.cart_item)
+
+    def updateQuantity(self,item, quantity)
+        self.cart_item[item] += 1
+        print("Cart has been update", self.cart_item)
+
+    def getItemByBarCode(self,barcode):
+        for item in self.cart_item:
+            if item.item_barcode == str(barcode):
+                return item
+        return None
+
+            
 
     def isExist(self, item_barcode):
         for item in self.cart_item:
@@ -102,6 +124,9 @@ if __name__ == "__main__":
     my_cart.getPrice()
     my_cart.getCartPrice()
     my_cart.getType()
+
+    my_cart.remove(8850999321004)
+
 
 
 
