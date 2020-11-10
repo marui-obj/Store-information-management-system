@@ -84,7 +84,17 @@ class Cart():
 
     def editQuantity(self, item, quantity):
         self.cart_item[item] = quantity
+        print("Cart has been edit", self.cart_item)
+
+    def updateQuantity(self, item):
+
+        self.cart_item[item] = str( int(self.cart_item[item]) +1 )
+        # 
         print("Cart has been update", self.cart_item)
+        return self.cart_item[item]
+
+    
+
 
     def getItemByBarCode(self,barcode):
         for item in self.cart_item:
