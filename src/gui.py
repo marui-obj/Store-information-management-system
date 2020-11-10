@@ -9,7 +9,7 @@ from PyQt5.QtWidgets import (QDialog, QListWidget, QVBoxLayout, QLabel, QPushBut
 
 from PyQt5.QtGui import QIcon
 
-# from database import Command
+from database import Command
 
 
 from ItemManager import Cart
@@ -57,7 +57,7 @@ class ScanWindow(QWidget):
         
         self.barcode_dict = {}
 
-        # self.database = Command() # connect to database
+        self.database = Command() # connect to database
 
         # You can use "super().__init__()" instead
         super(ScanWindow, self).__init__()
@@ -162,15 +162,11 @@ class ScanWindow(QWidget):
 
         self.add_item(barcode,ok_barcode,quality, ok_quality)
 
-        # item = self.database.getItem(barcode)
         
 
     def add_item(self, barcode,ok_barcode=True,quality= '1',ok_quality=True):
        
-        def database():
-            return "HT",15,"GOD"
-        item = database()
-                # item = self.database.getItem(barcode)
+        item = self.database.getItem(barcode)
         row = self.list.currentRow()
         if barcode :
             if self.cart.isExist(barcode):
